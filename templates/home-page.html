@@ -1,0 +1,67 @@
+{% extends 'base-page.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+<div class="card">
+    <div class="card-header">
+        <h1>My profile</h1>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Email address</h5>
+        <p class="card-text">{{ user.email }}</p>
+        <button type="button" class="btn btn-info text-white" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">Edit</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit my info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <button class="btn btn-lg btn-danger btn-block" href="{% url 'logout' %}" type="submit">
+        <a class="text-white" href="{% url 'logout' %}">Sign out</a>
+    </button>
+</div>
+{% else %}
+<p>You are not logged in</p>
+<div class="row">
+    <div class="col">
+        <button class="btn btn-lg btn-info btn-block" type="submit">
+            <a class="text-white" href="{% url 'login' %}">Login</a>
+        </button>
+    </div>
+    <div class="col">
+        <button class="btn btn-lg btn-info btn-block" type="submit">
+            <a class="text-white" href="{% url 'signup' %}">Signup</a>
+        </button>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
